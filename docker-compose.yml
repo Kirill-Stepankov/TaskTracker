@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - ./.env
+      - tasktracker/.env
     depends_on:
       - mongodb
   mongodb:
@@ -18,7 +18,7 @@ services:
     volumes:
       - mongodb_data:/data/db
     env_file:
-      - ./.env
+      - tasktracker/.env
     ports:
       - "27017:27017"
 volumes:
