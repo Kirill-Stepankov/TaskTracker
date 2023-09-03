@@ -1,3 +1,6 @@
 .env
 venv/
 tasktracker/tasktracker/__pycache__
+tasktracker/userprofile/__pycache__
+tasktracker/userprofile/migrations
+TODO.txt
