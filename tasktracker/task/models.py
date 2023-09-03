@@ -1,4 +1,5 @@
 from django.db import models
+from userprofile.models import Profile
 
 class Task(models.Model):
     class StatusChoices(models.TextChoices):
@@ -23,3 +24,4 @@ class Task(models.Model):
     category = models.CharField(max_length=2, choices=CategoryChoices.choices, default=CategoryChoices.HOME)
     date_created = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='tasks')
