@@ -45,7 +45,7 @@ class ProfileViewSet(mixins.RetrieveModelMixin,
         'update': [IsAdminOrIsSelf],
         'partial_update': [IsAdminOrIsSelf],
         'destroy': [IsAdminOrIsSelf],
-        'list': [permissions.AllowAny],
+        'list': [permissions.IsAdminUser],
     }
 
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAuthenticated])
