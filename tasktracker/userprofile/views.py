@@ -11,6 +11,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework import filters
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
+
 
 @api_view(['POST'])
 @permission_classes([IsAnonymous])
@@ -18,11 +20,12 @@ from django.shortcuts import get_object_or_404
 def signup_view(request):
     Profile = get_user_model()
     data = request.data
-    serializer = ProfileSerializer(data=data)
-    try:
-        serializer.is_valid(raise_exception=True)
-    except Exception:
+    print(bool(Profile.objects.filter(username=data.get('username'))))
+    if Profile.objects.filter(username=data.get('username')) or Profile.objects.filter(email=data.get('email')):
         return Response({'detail':'Use another username or email'}, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer = ProfileSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
 
     user = Profile.objects.create_user(email=data['email'], password=data['password'],
                                     username=data['username'], city=data['city'])
