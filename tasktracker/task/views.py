@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from .models import Task
 from .serializers import TaskSerializer
 from rest_framework import filters
-from userprofile.permissions import IsAdminOrIsSelf
+from .permissions import IsAdminOrIsOwner
 from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -18,10 +18,10 @@ class TaskViewSet(viewsets.ModelViewSet):
     search_fields = ['category', 'priority', 'status']
     permission_classes_by_action = {
         'create': [permissions.IsAuthenticated],
-        'retrieve': [IsAdminOrIsSelf],
-        'update': [IsAdminOrIsSelf],
-        'partial_update': [IsAdminOrIsSelf],
-        'destroy': [IsAdminOrIsSelf],
+        'retrieve': [IsAdminOrIsOwner],
+        'update': [IsAdminOrIsOwner],
+        'partial_update': [IsAdminOrIsOwner],
+        'destroy': [IsAdminOrIsOwner],
         'list': [permissions.IsAdminUser],
     }
 
