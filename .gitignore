@@ -7,3 +7,4 @@ TODO.txt
 tasktracker/task/__pycache__
 tasktracker/task/migrations
 tasktracker/task/tests/__pycache__
+.coverage
