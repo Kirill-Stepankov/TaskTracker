@@ -6,3 +6,4 @@ tasktracker/userprofile/migrations
 TODO.txt
 tasktracker/task/__pycache__
 tasktracker/task/migrations
+tasktracker/task/tests/__pycache__
