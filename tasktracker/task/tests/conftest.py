@@ -1,11 +1,8 @@
 import pytest
 from rest_framework.test import APIClient
-from userprofile.models import Profile
 
 
-@pytest.fixture
-def api_client():
-    return APIClient
+client = APIClient()
 
 @pytest.fixture
 def user_credentials():
@@ -17,7 +14,9 @@ def user_credentials():
     }
 
 @pytest.fixture
-def user_jwt(user_credentials, api_client, db):
-    user = Profile.objects.create_user(**user_credentials)
-    response = api_client().post('/api/v1/token/', user_credentials)
-    return response.json().get('access_token'), user
+def task_credentials():
+    return {
+        'description': 'test',
+        'due_date': '2012-12-12',
+        'owner': 'http://0.0.0.0:8000/api/v1/users/1/'
+    }
