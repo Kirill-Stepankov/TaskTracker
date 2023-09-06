@@ -17,6 +17,5 @@ def user_credentials():
 def task_credentials():
     return {
         'description': 'test',
-        'due_date': '2012-12-12',
-        'owner': 'http://0.0.0.0:8000/api/v1/users/1/'
+        'due_date': '2012-12-12'
     }
