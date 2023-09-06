@@ -1,7 +1,8 @@
 import pytest
 from userprofile.models import Profile
 from rest_framework.test import APIClient
-
+import jwt
+from tasktracker.settings import SECRET_KEY
 
 client = APIClient()
 
@@ -13,4 +14,4 @@ def user_jwt(user_credentials, db):
 @pytest.fixture
 def access_token(user_credentials):
     response = client.post('/api/v1/token/', user_credentials)
-    return response.json().get('access_token')
+    return response.json().get('access')
