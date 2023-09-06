@@ -8,6 +8,7 @@ from rest_framework import permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+from userprofile.service import UserService
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
@@ -24,6 +25,12 @@ class TaskViewSet(viewsets.ModelViewSet):
         'destroy': [IsAdminOrIsOwner],
         'list': [permissions.IsAdminUser],
     }
+
+    user_service = UserService()
+
+    def perform_create(self, serializer):
+        owner_id = self.user_service.get_user_id(self.request)
+        serializer.save(owner_id=owner_id)
 
     @action(detail=False, methods=['GET'], permission_classes=[permissions.IsAuthenticated])
     def my_tasks(self, request):
