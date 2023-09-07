@@ -20,7 +20,6 @@ from django.core.exceptions import ObjectDoesNotExist
 def signup_view(request):
     Profile = get_user_model()
     data = request.data
-    print(bool(Profile.objects.filter(username=data.get('username'))))
     if Profile.objects.filter(username=data.get('username')) or Profile.objects.filter(email=data.get('email')):
         return Response({'detail':'Use another username or email'}, status=status.HTTP_400_BAD_REQUEST)
 
