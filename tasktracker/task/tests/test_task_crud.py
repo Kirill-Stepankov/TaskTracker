@@ -107,3 +107,28 @@ def test_update_task(
 
     if expected_status == 200:
         assert response.json().get('description') == task_credentials['description']
+
+
+@pytest.mark.parametrize(
+        "is_admin_or_is_self, expected_status",
+        [
+            (True, 204),
+            (False, 403)
+        ]
+)
+def test_delete_task(
+        is_admin_or_is_self,
+        expected_status,
+        task_credentials,
+        is_admin_or_is_self_mock,
+        user_jwt,
+        access_token,
+        task,
+):
+    is_admin_or_is_self_mock.return_value = is_admin_or_is_self
+
+    response = client.delete(f'/api/v1/tasks/{task.pk}/')
+
+    assert response.status_code == expected_status
+
+
