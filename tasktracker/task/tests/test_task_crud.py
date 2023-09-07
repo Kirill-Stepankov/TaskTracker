@@ -4,17 +4,13 @@ from rest_framework.permissions import IsAuthenticated
 from task.permissions import IsAdminOrIsOwner
 from tests.conftest import (
     user_jwt,
-    access_token
+    access_token,
+    is_authenticated_mock,
 )
 from task.models import Task
 
 
 client = APIClient()
-
-@pytest.fixture
-def is_authenticated_mock(mocker):
-    mock = mocker.patch.object(IsAuthenticated, 'has_permission')
-    return mock
 
 @pytest.fixture
 def is_admin_or_is_self_mock(mocker):

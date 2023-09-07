@@ -5,7 +5,8 @@ from tests.conftest import (
     user_jwt,
     access_token,
     valid_jwt_request,
-    invalid_jwt_request
+    invalid_jwt_request,
+    is_authenticated_mock
 )
 from userprofile.models import Profile
 from userprofile.service import UserService

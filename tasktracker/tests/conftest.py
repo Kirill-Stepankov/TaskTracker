@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 import jwt
 from tasktracker.settings import SECRET_KEY
 from django.http import HttpRequest
+from rest_framework.permissions import IsAuthenticated
 
 client = APIClient()
 
@@ -31,3 +32,8 @@ def invalid_jwt_request():
     request = HttpRequest()
     request.META['HTTP_AUTHORIZATION'] = 'Bearer ' + 'Invalid token'
     return request
+
+@pytest.fixture
+def is_authenticated_mock(mocker):
+    mock = mocker.patch.object(IsAuthenticated, 'has_permission')
+    return mock
