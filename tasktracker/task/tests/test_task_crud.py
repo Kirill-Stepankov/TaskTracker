@@ -29,7 +29,6 @@ def task(
 ):
     client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_token)
     response = client.post('/api/v1/tasks/', task_credentials)
-    print(response.content)
     return Task.objects.filter(owner=user_jwt).first()
 
 
@@ -63,7 +62,7 @@ def test_create_task(
         "is_admin_or_is_self, expected_status",
         [
             (True, 200),
-            (False, 401)
+            (False, 403)
         ]
 )
 def test_get_task(
@@ -76,10 +75,35 @@ def test_get_task(
 ):
     is_admin_or_is_self_mock.return_value = is_admin_or_is_self
 
-    client.credentials(HTTP_AUTHORIZATION='Token ' + access_token)
-
     response = client.get(f'/api/v1/tasks/{task.pk}/')
 
     assert response.status_code == expected_status
 
-    
+
+@pytest.mark.parametrize(
+        "is_admin_or_is_self, expected_status",
+        [
+            (True, 200),
+            (False, 403)
+        ]
+)
+def test_update_task(
+        is_admin_or_is_self,
+        expected_status,
+        task_credentials,
+        is_admin_or_is_self_mock,
+        user_jwt,
+        access_token,
+        task,
+):
+    is_admin_or_is_self_mock.return_value = is_admin_or_is_self
+
+    task_credentials['description'] = 'new desc'
+    task_credentials['due_date'] = '2020-10-10'
+
+    response = client.put(f'/api/v1/tasks/{task.pk}/', task_credentials)
+
+    assert response.status_code == expected_status
+
+    if expected_status == 200:
+        assert response.json().get('description') == task_credentials['description']
